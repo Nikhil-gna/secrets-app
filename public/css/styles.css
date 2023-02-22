@@ -1,0 +1,25 @@
+
+body {
+  background-color: #E8ECEF;
+}
+
+.centered {
+    /* padding-top: 200px; */
+    text-align: center;
+}
+
+.secret-text {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #000;
+}
+.lotani {
+    padding-top: 50px;
+    padding-right: 50px;
+    padding-left: 50px;
+    padding-bottom: 25px;
+    text-align: center;
+    place-items: center;
+  
+}
