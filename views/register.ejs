@@ -1,14 +1,26 @@
 <%- include('partials/header') %>
 <div class="  container mt-5">
   <h1>Register</h1>
-  <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_mjlh3hcy.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
   <div class="row">
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="card-body">
+    <div class="col-sm-4">
+      <!-- <div class="card"> -->
+        <!-- <div class="card-body"> -->
+         
+          <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_mjlh3hcy.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+  
 
-          <!-- Makes POST request to /register route -->
-          <form action="/register" method="POST">
+        <!-- </div> -->
+      <!-- </div> -->
+    </div>
+  <!-- </div>
+</div> -->
+
+    
+    <div class="col-sm-8">
+      <div class="card ">
+        <div class="card-body">
+           <!-- Makes POST request to /register route -->
+           <form action="/register" method="POST">
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" class="form-control" name="username">
@@ -20,21 +32,12 @@
             <br>
             <button type="submit" class="btn btn-dark">Register</button>
           </form>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-    <div class="col-sm-4">
-      <div class="card social-block">
-        <div class="card-body">
+          <br>
           <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
             <i class="fab fa-google"></i>
             Sign Up with Google
           </a>
+
         </div>
       </div>
     </div>

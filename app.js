@@ -43,7 +43,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/userDB", {useNewUrlParser: true});
 const userSchema = new mongoose.Schema({
     email: String,
     password: String,
-    googleId: String
+    googleId: String,
+    secret: Array
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -76,7 +77,7 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/secrets"
   },
   function(accessToken, refreshToken, profile, cb) {
-    console.log(profile);
+    // console.log(profile);
 
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
       return cb(err, user);
@@ -115,13 +116,71 @@ app.get("/logout", function(req, res ) {
        }
     });
   });
+
 app.get("/secrets", function(req, res) {
-    if(req.isAuthenticated()){
-        res.render("secrets");
+   User.find({"secret": {$ne: null}}, function(err, foundUsers) {
+    if(err){
+        console.log(err);
     }else{
+        if(foundUsers){
+            res.render("secrets", {usersWithSecrets: foundUsers});
+            
+        }
+    }
+
+   });
+});
+
+app.get("/submit", function(req, res) {
+    if(req.isAuthenticated()){
+        res.render("submit");
+    }else{
+
         res.redirect("/login");
     }
 });
+
+app.post("/submit", function(req, res) {
+    const summitedSecret = req.body.secret;
+    // console.log(req.user.id);
+    User.findById(req.user.id, function(err, foundUser) {
+        if(err){
+            console.log(err);
+        }else{
+            if(foundUser){
+                foundUser.secret = summitedSecret;
+                foundUser.save(function(){
+                    res.redirect("/secrets");
+                });
+            }
+        }
+    });
+});
+
+// app.post("/submit", (req, res) => {
+//     const submittedSecret = req.body.secret;
+ 
+//     User.findById(req.user._id, (err, foundUser) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+ 
+//             if (foundUser) {
+//                 User.updateOne(
+//                     { _id: req.user._id },
+//                     { $push: { secret: submittedSecret } },
+//                     (err, result) => {
+//                         if (err) {
+//                             console.log(err);
+//                         } else {
+//                             res.redirect("/secrets");
+//                         }
+//                     }
+//                 );
+//             }
+//         }
+//     });
+// });
 
 app.post("/register", function(req, res) {
     User.register({username: req.body.username}, req.body.password, function(err, user) {
